@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const Header = (props) => {
+
     return (
         <div>
             <p>{props.course}</p>
@@ -10,11 +11,12 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
+    console.log(props)
     return (
         <div>
-            <Part osa1={props.part1} nopat1={props.exercises1} />
-            <Part osa1={props.part2} nopat1={props.exercises2} />
-            <Part osa3={props.part3} nopat3={props.exercises3} />
+            <Part osa1={props.name} nopat1={props.exercises} />
+            <Part osa2={props.name2} nopat2={props.exercises2} />
+            <Part osa3={props.name3} nopat3={props.exercises3} />
         </div>
     )
 }
@@ -31,26 +33,38 @@ const Part = (props) => {
 const Total = (props) => {
     return (
         <div>
-            <p>yhteensä {props.exercises1 + props.exercises2 + props.exercises3} tehtävää</p>
+            <p>yhteensä {props.part1yht + props.part2yht + props.part3yht} tehtävää</p>
         </div>
     )
 }
 
 const App = () => {
   const course = 'Half Stack -sovelluskehitys:'
-  const part1 = 'Reactin perusteet'
-  const exercises1 = 10
-  const part2 = 'Tiedonvälitys propseilla'
-  const exercises2 = 7
-  const part3 = 'Komponenttien tila'
-  const exercises3 = 14
+
+  const part1 = {
+      name: 'Reactin perusteet',
+      exercises: 10
+  }
+
+  const part2 = {
+      name: 'Tiedonvälitys propseilla',
+      exercises: 7
+  }
+  
+  const part3 = {
+      name: 'Komponenttien tila',
+      exercises: 14
+  } 
+
 
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1} part2={part2} part3={part3} 
-      exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
-      <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
+      <Content name={part1.name} exercises={part1.exercises} 
+      name2={part2.name} exercises2={part2.exercises}
+      name3={part3.name} exercises3={part3.exercises} />
+
+      <Total part1yht={part1.exercises} part2yht={part2.exercises} part3yht={part3.exercises} />
     </div>
   )
 }
