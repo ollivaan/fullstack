@@ -8,7 +8,15 @@ const Button = ({handleClick, text}) => (
 
 )
 const Statistic = (props) => {
-    console.log(props)
+    let all = props.good+props.neutral+props.bad
+    if(all===0) {
+        return (
+            <div>
+            painele niitä nappuloita
+            </div>
+        )
+    }
+
     return (
         <div>
             <p>Good: {props.good}</p>
@@ -31,38 +39,28 @@ const Sum = (props) => {
 const Ka = (props) => {
     return ( 
         <div>
-            <p>Ka: {(props.good - props.bad) / (props.good + props.neutral + props.bad)} </p>
+
+            Ka: {(props.good - props.bad) / (props.good + props.neutral + props.bad)}
+          
         </div>
     )
 }
 const PositivesOnly = (props) => {
     return (
+        
         <div>
             <p> Positives: {(props.good)/(props.good + props.neutral + props.bad)*100} %</p>
         </div>
     )
 }
-const History = (props) => {
-    if (props.allClicks.length === 0) {
-      return (
-        <div>
-            Painele nappuloita
-        </div>
-      )
-    }
-  
-    return (
-      <div>
-        <Statistic good={props.good} neutral={props.neutral} bad={props.bad}/>
-      </div>
-    )
-}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [allClicks, setAll] = useState([])
+//   const [selected, setSelected] = useState(0)
   
   const handleGoodClick = () => {
     setAll(allClicks + 1)
@@ -75,7 +73,10 @@ const App = () => {
   const handleBadClick = () => {
     setAll(allClicks + 1)  
     setBad(bad + 1)
-  }  
+  }
+//   const handleAnectodeClick = () => {  
+//     setSelected(selected + 1)
+//   }     
   return (
     <div>
         <h1>Give feedback</h1>
@@ -87,13 +88,23 @@ const App = () => {
         {/* {bad} */}
         <Button handleClick={handleBadClick} text='Bad'/>
         <h2>Statistiikka</h2>
-        <History allClicks={allClicks} good={good} neutral={neutral} bad={bad} />
-        
+        <Statistic good={good} neutral={neutral} bad={bad}/>
+        {/* <History allClicks={allClicks} good={good} neutral={neutral} bad={bad} /> */}
+        {/* <Button handleClick={handleAnectodeClick} text='Anectode'/> */}
+        {/* {props.anecdotes[selected]}         */}
 
     </div>
   )
 }
-
+// const anecdotes = [
+//     'If it hurts, do it more often',
+//     'Adding manpower to a late software project makes it later!',
+//     'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+//     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+//     'Premature optimization is the root of all evil.',
+//     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+//   ]
+// anecdotes={anecdotes}
 ReactDOM.render(<App />, 
   document.getElementById('root')
 )
