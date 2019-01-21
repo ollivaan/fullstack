@@ -1,3 +1,3 @@
 # fullstack
 
-# kurssikuvaus[https://fullstack-hy2019.github.io/]
+ *[kurssikuvaus]*(https://fullstack-hy2019.github.io/)
