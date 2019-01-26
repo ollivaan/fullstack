@@ -19,12 +19,30 @@ const Statistic = (props) => {
 
     return (
         <div>
-            <p>Good: {props.good}</p>
-            <p>Neutral: {props.neutral}</p>
-            <p>Bad: {props.bad}</p>
-            <Sum good={props.good} neutral={props.neutral} bad={props.bad} />
-            <Ka good={props.good} neutral={props.neutral} bad={props.bad} />
-            <PositivesOnly good={props.good} neutral={props.neutral} bad={props.bad} />
+            <table>
+                <tbody>
+
+                    <tr>
+                        <td>Good: {props.good}</td>
+                    </tr>
+                    <tr>
+                        <td>Neutral: {props.neutral}</td>
+                    </tr>
+                    <tr>
+                        <td>Bad: {props.bad}</td>
+                    </tr>
+                    <tr>
+                        <td><Sum good={props.good} neutral={props.neutral} bad={props.bad} /></td>
+                    </tr>
+                    <tr>
+                        <td><Ka good={props.good} neutral={props.neutral} bad={props.bad} /></td>
+                    </tr>
+                    <tr>
+                        <td><PositivesOnly good={props.good} neutral={props.neutral} bad={props.bad} /></td>
+                    </tr>
+                </tbody> 
+            </table>  
+
 
         </div>
     )
@@ -32,7 +50,7 @@ const Statistic = (props) => {
 const Sum = (props) => {
     return (
         <div>
-            <p>Sum: {props.good + props.neutral + props.bad}</p>
+            Sum: {props.good + props.neutral + props.bad}
         </div>
     )
 }
@@ -49,7 +67,7 @@ const PositivesOnly = (props) => {
     return (
         
         <div>
-            <p> Positives: {(props.good)/(props.good + props.neutral + props.bad)*100} %</p>
+            Positives: {(props.good)/(props.good + props.neutral + props.bad)*100} %
         </div>
     )
 }

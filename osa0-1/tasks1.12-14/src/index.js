@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 
 
 const App = (props) => {
+//  taulukko = new Array(6).fill(0)
   const [selected, setSelected] = useState(0)
   const [vote, setVoted] = useState(0)
   console.log(selected, 'selected arvo')
