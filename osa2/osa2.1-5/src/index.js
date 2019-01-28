@@ -5,11 +5,17 @@ const Header = props =>
   <h1>{props.course}</h1>
 
 const Total = props => {
+  const pituus = props.parts.length
 
-   let total = 0
-   props.parts.forEach(value => {
-    total+= value.exercises;
-  })  
+  let array = [];
+  for(let i = 0; i < pituus; i++) {
+    array.push(props.parts[i].exercises)
+  }
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  const total = array.reduce(reducer)
+
+
+
 
 return <p>yhteensä {total} tehtävää</p>
 }
