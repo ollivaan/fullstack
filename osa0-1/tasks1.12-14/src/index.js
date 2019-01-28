@@ -6,7 +6,6 @@ const Button = (props) => (
 )
 const App = (props) => {
  
-
   const [selected, setSelected] = useState(0)
   const [vote, setVoted] = useState(new Array(anecdotes.length).fill(0))
   const [topVoted, setTopVoted] = useState(0)
