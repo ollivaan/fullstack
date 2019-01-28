@@ -4,11 +4,15 @@ import ReactDOM from 'react-dom'
 const Header = props =>
   <h1>{props.course}</h1>
 
-// const Total = props => {
-//   const total = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises
+const Total = props => {
 
-//   return <p>yhteensä {total} tehtävää</p>
-// }
+   let total = 0
+   props.parts.forEach(value => {
+    total+= value.exercises;
+  })  
+
+return <p>yhteensä {total} tehtävää</p>
+}
   
 const Part = (props) => {
     return (
@@ -30,6 +34,7 @@ const Course = props => {
     <div>
     <Header course={course.name} />
     <Content parts={course.parts} />
+    <Total parts={course.parts} />
 
     </div>
     )
@@ -51,9 +56,9 @@ const App = () => {
       },
       {
         name: 'Komponenttien tila',
-        exercises: 14,
+        exercises: 2,
         id: 3
-      }
+      }      
     ]
   } 
 
