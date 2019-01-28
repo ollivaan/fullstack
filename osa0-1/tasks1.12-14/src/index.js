@@ -1,25 +1,44 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-
+const Button = (props) => (
+  <button onClick={props.handleClick}> {props.text}</button>
+)
 const App = (props) => {
-//  taulukko = new Array(6).fill(0)
+ 
+
   const [selected, setSelected] = useState(0)
-  const [vote, setVoted] = useState(0)
-  console.log(selected, 'selected arvo')
+  const [vote, setVoted] = useState(new Array(anecdotes.length).fill(0))
+  const [topVoted, setTopVoted] = useState(0)
+
   const randomanectode = Math.floor(anecdotes.length*Math.random())
-//   console.log(a, 'a:n arvo')
   const random = () => setSelected(randomanectode)
-  const voteanectode = () => setVoted(vote + 1)
+
+  const voteanectode = (props) => {
+    const copy = [...vote]
+    copy[props] += 1    
+    setVoted(copy)
+    setTopVotedAnacdote()
+  }
+//   var a = [0, 21, 22, 7];
+// var indexOfMaxValue = a.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+
+// document.write("indexOfMaxValue = " + indexOfMaxValue); // prints "indexOfMaxValue = 2"
+  const setTopVotedAnacdote = () => {
+    setTopVoted(vote.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0))
+
+}
 
   return (
     <div>
+      <h1>Anectode of the day</h1>
       <p>{props.anecdotes[selected]}</p>
-      <br></br>
-      <button onClick={random}> next anecdote </button>
-      <button onClick={voteanectode}> vote </button> 
-      {vote} 
-
+      <p>has {vote[selected]} votes</p>
+      <Button handleClick={() => voteanectode(selected)} text="vote"></Button>
+      <button onClick={random}> next anectode </button> 
+      <h1>Anecdote with most votes</h1>
+        <p>{props.anecdotes[topVoted]}</p>
+        <p>has {vote[topVoted]} votes </p>
     </div>
   )
 }
