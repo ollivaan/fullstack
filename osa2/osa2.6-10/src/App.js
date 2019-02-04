@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const Persons = ({persons}) => {
     const result = persons.map(person => <li key={Math.random()}>{person.name} {person.number}</li>)
@@ -36,15 +36,13 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
 
 
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
+  useEffect(() => {
+    personService
+      .getAll()
       .then(response => {
         setPersons(response.data)
       })
-  }
-  
-  useEffect(hook, [])
+  }, [])
   
   const handlePersonChange = (event) => {
 
@@ -66,12 +64,12 @@ const App = () => {
     const result = persons.map(person => person.name)
  
     if (result.indexOf(personObject.name) === -1) {
-        axios
-        .post('http://localhost:3001/persons', personObject)
-      . then(response => {
-        setPersons(persons.concat(response.data))
-        setNewName('')
-        setNewNumber('')
+        personService
+        .create(personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
         })
    
       
