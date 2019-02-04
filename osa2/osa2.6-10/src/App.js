@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Persons = ({persons}) => {
     const result = persons.map(person => <li key={Math.random()}>{person.name} {person.number}</li>)
@@ -30,11 +31,20 @@ const PersonForm = props => (
   )
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040123123' }
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
 
+
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }
+  
+  useEffect(hook, [])
   
   const handlePersonChange = (event) => {
 
