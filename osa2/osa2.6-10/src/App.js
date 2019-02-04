@@ -23,9 +23,18 @@ const App = () => {
       name: newName,
 
     }
-  
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    const result = persons.map(person => person.name)
+ 
+    if (result.indexOf(personObject.name) === -1) {
+        setPersons(persons.concat(personObject))
+        setNewName('')
+
+        
+      } else { 
+        
+        window.alert(`${newName} on jo luettelossa`)
+      } 
+
   }
   return (
     <div>
