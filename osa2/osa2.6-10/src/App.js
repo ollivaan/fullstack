@@ -62,12 +62,19 @@ const App = () => {
       number: newNumber
 
     }
+
     const result = persons.map(person => person.name)
  
     if (result.indexOf(personObject.name) === -1) {
-        setPersons(persons.concat(personObject))
+        axios
+        .post('http://localhost:3001/persons', personObject)
+      . then(response => {
+        setPersons(persons.concat(response.data))
         setNewName('')
-        setNewNumber('')      
+        setNewNumber('')
+        })
+   
+      
       } else { 
         
         window.alert(`${newName} on jo luettelossa`)
