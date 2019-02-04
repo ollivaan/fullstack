@@ -1,5 +1,33 @@
 import React, { useState } from 'react'
 
+const Persons = ({persons}) => {
+    const result = persons.map(person => <li key={Math.random()}>{person.name} {person.number}</li>)
+        return (
+        <div>{result}</div>
+        ) 
+}
+
+const PersonForm = props => (
+    <form onSubmit={props.addPerson}>
+      <div>
+        nimi: 
+        <input
+          value={props.newName}
+          onChange={props.handlePersonChange}
+        />
+      </div>
+      <div>
+        numero:
+        <input
+          value={props.newNumber}
+          onChange={props.handleNumberChange}
+        />
+      </div>
+      <div>
+        <button type="submit">lisää</button>
+      </div>
+    </form>
+  )
 const App = () => {
   const [ persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040123123' }
@@ -7,11 +35,6 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
 
-
-  
-
-  const rows = () => 
-  persons.map(person => <li key={Math.random()}>{person.name} {person.number}</li>)
   
   const handlePersonChange = (event) => {
 
@@ -34,9 +57,7 @@ const App = () => {
     if (result.indexOf(personObject.name) === -1) {
         setPersons(persons.concat(personObject))
         setNewName('')
-        setNewNumber('')
-
-        
+        setNewNumber('')      
       } else { 
         
         window.alert(`${newName} on jo luettelossa`)
@@ -46,20 +67,18 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-
-   
-        <form onSubmit={addPerson}>
-          nimi: <input value={newName}
-          onChange={handlePersonChange}
-           />
-          <div>numero: <input value={newNumber}
-          onChange={handleNumberChange} />
-          </div>           
-          <button type="submit">lisää</button>
-        </form>
-        
-      <h2>Numerot</h2>
-      {rows()}
+      <h3>lisää uusi</h3>
+      <PersonForm 
+        addPerson={addPerson}
+        newName={newName}
+        handlePersonChange={handlePersonChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />        
+      <h3>Numerot</h3>
+      <Persons
+        persons={persons}
+        />
     </div>
   )
 
