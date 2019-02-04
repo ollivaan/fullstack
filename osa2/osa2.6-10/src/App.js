@@ -4,10 +4,19 @@ import personService from './services/persons'
 const Persons = ({persons}) => {
     const result = persons.map(person => <li key={Math.random()}>{person.name} {person.number}</li>)
         return (
-        <div>{result}</div>
+        <div>{result} </div>
         ) 
 }
-
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
 const PersonForm = props => (
     <form onSubmit={props.addPerson}>
       <div>
@@ -30,10 +39,12 @@ const PersonForm = props => (
     </form>
   )
 const App = () => {
+  const [errorMessage, setErrorMessage] = useState('')
   const [ persons, setPersons] = useState([
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
+
 
 
   useEffect(() => {
@@ -52,6 +63,7 @@ const App = () => {
 
     setNewNumber(event.target.value)
   }
+
   const addPerson = (event) => {
     
     event.preventDefault()
@@ -74,8 +86,12 @@ const App = () => {
    
       
       } else { 
-        
-        window.alert(`${newName} on jo luettelossa`)
+        setErrorMessage(
+          `${newName} on jo luettelossa`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000) 
       } 
 
   }
@@ -89,10 +105,13 @@ const App = () => {
         handlePersonChange={handlePersonChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
+     
       />        
       <h3>Numerot</h3>
+      <Notification message={errorMessage} />
       <Persons
         persons={persons}
+
         />
     </div>
   )
