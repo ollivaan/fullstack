@@ -10,13 +10,13 @@ const Weather = ({ weather }) => {
   return(
     <div>
       <div>
-        <strong>temperature:</strong> {weather.temp_c} Celsius
+        <strong>Lämpötila:</strong> {weather.temp_c} Celsius
       </div>
       <div>
         <img src={weather.condition.icon} alt={weather.condition.text} />
       </div>
       <div>
-        <strong>wind:</strong> {weather.wind_kph} kph direction {weather.wind_dir}
+        <strong>Tuuli:</strong> {weather.wind_kph} kph direction {weather.wind_dir}
       </div>
       
     </div>
@@ -38,23 +38,35 @@ const Country = ({ country }) => {
     <div>
       <h2>{country.name}</h2>
 
-      <div>capital {country.capital}</div>
+      <div>Pääkaupunki: {country.capital}</div>
 
-      <div>populaton {country.population}</div>   
+      <div>Henkilömäärä: {country.population}</div>  
 
-      <h3>languages</h3>
+      <div>Alkuperäinen-nimi: {country.nativeName}</div>
+      <div>Suuntanumero: {country.callingCodes}</div>
+
+
+      <h3>Kielet:</h3>
 
       <ul>
         {country.languages.map(language =>
           <li key={language.iso639_1}>{language.name}</li>
         )}
       </ul>
+      <h3>Valuutta:</h3>
+      <ul>
+        {country.currencies.map(currency =>
+          <li key={currency.iso4217}>{currency.name}</li>
+        )}
+      </ul>
+
+
 
       <div>
         <img src={country.flag} alt='flag' height='100' />
       </div>
 
-      <h3>Weather in {country.capital}</h3>
+      <h3>Sää nyt: {country.capital}</h3>
 
       <Weather weather={weather} />      
     </div>
@@ -85,7 +97,7 @@ const Countries = ({ countries, handleClick }) => {
           {c.name}
           <button onClick={() => handleClick(c.name)}>show</button>
         </div>
-      )}
+      )} 
     </div>
   ) 
 }
