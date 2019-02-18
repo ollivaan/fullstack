@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5c6a6488ee9f885c30f03902
+Content-Type: application/json
+
+{
+    "title": "SIEPPARI 2",
+    "author": "SIEPPAR",
+    "url": "www.LOL.fi",
+    "likes": 110
+}
