@@ -3,16 +3,18 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
-import BlogForm from './components/BlogForm';
+import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Toggable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null) 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [user, setUser] = useState(null)
+  const [errorMessage] = useState(null)
   const [notifMessage, setNotifMessage] = useState(null)
-  const [blogVisible, setBlogVisible] = useState(false)
+  // const [blogVisible, setBlogVisible] = useState(false)
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
@@ -20,8 +22,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs( blogs ))
   }, [])
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -31,7 +32,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -39,8 +39,7 @@ const App = () => {
         username, password,
       })
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-      ) 
+        'loggedNoteappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -58,16 +57,23 @@ const App = () => {
     setUser(null)
     setUsername('')
     setPassword('')
-    
     setNotifMessage('Uloskirjautuminen onnistui')
     setTimeout(() => {
       setNotifMessage(null)
     }, 5000)
   }
+  // const updateBlog = (event, bloglikes) => {
+  //   bloglikes.likes = bloglikes.likes + 1
+  //   event.preventDefault()
+  //   blogService
+  //     .update(bloglikes).then(() => {
+  //       setTimeout(() => {
+  //         setNotifMessage(null)
+  //       }, 5000)
+  //     })
+  // }
 
-  const handleBlog = (event) => {
-    
-    event.preventDefault()
+  const handleBlog = (event) => { event.preventDefault()
     const blogObject = {
       title: newTitle,
       author: newAuthor,
@@ -87,117 +93,57 @@ const App = () => {
         setNewUrl('')
       })
   }
-  const newBlogForm = () => {
-    const hideWhenVisible = { display: blogVisible ? 'none' : '' }
-    const showWhenVisible = { display: blogVisible ? '' : 'none' }
-    return (
-      <div>
-        <div style = {hideWhenVisible}>
-          <button onClick={() => setBlogVisible(true)}>create new blog</button>
-        </div>
-        <div style = {showWhenVisible}>
-        <BlogForm 
-          title = {newTitle}
-          author = {newAuthor}
-          url = {newUrl}
-          handleTitleChange={({ target }) => setNewTitle(target.value)}
-          handleAuthorChange={({ target }) => setNewAuthor(target.value)}
-          handleUrlChange={({ target }) => setNewUrl(target.value)}
-          handleBlog={handleBlog}
-          />
-                    <button onClick={() => setBlogVisible(false)}>cancel</button>
-        </div>
-      </div>
-    )
-  }
-    
-  //   <form onSubmit={handleBlog}>
-  //   <div>  
-  //     <label>
-  //       Title: <input type="text" value={newTitle} onChange={({ target }) => setNewTitle(target.value)}/>  
-  //     </label>  
-  //   </div>
-  //   <div>
-  //     <label>
-  //       Author: <input type="text" value={newAuthor} onChange={({ target }) => setNewAuthor(target.value)} />
-  //     </label>
-  //   </div>
-  //     <label>
-  //       URL: <input type="text" value={newUrl} onChange={({ target }) => setNewUrl(target.value)} />
-  //     </label>
-  //     <button type="submit">Kirjaa</button>
-  //   </form> 
-  // )
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        käyttäjätunnus
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        salasana
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">kirjaudu</button>
-    </form>      
-  )
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
-        
         <Notification message={errorMessage} error={true} />
         <Notification message={notifMessage} error={false} />
-        <form onSubmit={handleLogin}>
-      <div>
-
-        käyttäjätunnus
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        salasana
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">kirjaudu</button>
-    </form>
+        <Togglable buttonLabel='login'>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}/>
+        </Togglable>
       </div>
     )
   }
+
+
   return (
     <div>
 
       <Notification message={errorMessage} error={true} />
       <Notification message={notifMessage} error={false} />
-      { user === null ? loginForm() :
-      <div>        
-        <p>{user.name} logged in</p>
-        <button onClick={() => handleLogout()}>logout</button>
-        <h2>blogs</h2>
-        {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-        {newBlogForm()}
-      </div>
+      { user === null ? LoginForm() :
+        <div> <p>{user.name} logged in</p><button onClick={() => handleLogout()}>logout</button>
+          <h2>blogs</h2>
+          {/* {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} update={updateBlog} />
+      )} */}
+          <Togglable buttonLabel="new blog">
+            <BlogForm
+              title = {newTitle}
+              author = {newAuthor}
+              url = {newUrl}
+              handleTitleChange={({ target }) => setNewTitle(target.value)}
+              handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+              handleUrlChange={({ target }) => setNewUrl(target.value)}
+              handleBlog={handleBlog}
+            />
+          </Togglable>
+          {blogs.map(blog => <Blog key={blog.id}
+            blog={blog}
+            blogs={blogs}
+            setBlogs={setBlogs}
+            user={user}
+          />
+          )}
+
+          {/* {newBlogForm()} */}
+        </div>
       }
 
       {/* <h2>blogs</h2>
