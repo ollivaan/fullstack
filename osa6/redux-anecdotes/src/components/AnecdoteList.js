@@ -2,7 +2,8 @@ import React from 'react';
 import {votesFor} from '../reducers/anecdoteReducer'
 
 const AnecdoteList = ({store}) => {
-    const anecdotes = store.getState()
+    const anecdotes = store.getState().anecdotes
+    console.log(store.getState())
     const vote = (id) => {
         console.log('vote', id)
         // Tänne äänestys! 

@@ -7,6 +7,7 @@ const anecdoteForm = ({store}) => {
         event.preventDefault()
         store.dispatch(
           createAnecdote(event.target.anectdootti.value)
+          
         )
         event.target.anectdootti.value = ''
       }
