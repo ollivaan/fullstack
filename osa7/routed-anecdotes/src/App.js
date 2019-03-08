@@ -1,8 +1,12 @@
+// import LinkButton from './components/LinkButton'
+import { useAlert } from 'react-alert'
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Route, Link, Redirect, withRouter
 } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+
 
 const Menu = () => {
   const padding = {
@@ -59,9 +63,11 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const alert = useAlert()
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const [created, setCreated] = useState(false)
 
 
   const handleSubmit = (e) => {
@@ -72,6 +78,12 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    setCreated(true)
+  } 
+
+  if (created) {
+    alert.show('Lisätty')
+    return <Redirect to="/" />
   }
 
   return (
@@ -90,8 +102,9 @@ const CreateNew = (props) => {
           url for more info
           <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
         </div>
-        <button>create</button>
-      </form>
+        <button type="submit"> create </button>
+        
+      </form>  
     </div>
   )
 
